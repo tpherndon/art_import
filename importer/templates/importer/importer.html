@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Import Artworks CSV</h2>
+    <div class="row-fluid">
+        <form id="import-form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="btn btn-primary" type="submit" value="Upload">
+        </form>
+    </div>
+    <div class="hero-unit">
+        <h3>
+            <span class="label label-warning">
+                <i class="icon-exclamation-sign icon-white"></i>
+            </span>&nbsp;Have Patience
+        </h3>
+        <p>Importing takes quite a bit of time, as it needs to retrieve the
+        image associated with each artwork and then generate the smaller sizes
+        used throughout the application. On a laptop with a 2GHz dual-core
+        processor and 2GB of RAM, importing the sample file takes about
+        15 minutes. Don't be alarmed, just go enjoy a tasty beverage!<p>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ importrun.artwork_set.count }} Artworks</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year Started</th>
+                <th>Year Finished</th>
+                <th>Medium</th>
+                <th>Raw Size</th>
+                <th>Depth</th>
+                <th>Height</th>
+                <th>Width</th>
+                {% comment %}<th>Image URL</th>{% endcomment %}
+                <th>Artist</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artwork in importrun.artwork_set.all %}
+            <tr>
+                <td>{{ artwork.title }}</td>
+                <td>{% ifequal artwork.create_start.year 1 %}
+                    <span class="label label-warning">NotSupplied</span>
+                    {% else %}
+                    {{ artwork.create_start.year }}</td>
+                    {% endifequal %}
+                    <td>{% ifequal artwork.create_start.year 1 %}
+                    <span class="label label-warning">NotSupplied</span>
+                    {% else %}
+                    {{ artwork.create_finish.year }}
+                    {% endifequal %}
+                </td>
+                <td>
+                    {% if not artwork.medium %}
+                    <span class="label label-warning">NotSupplied</span>
+                    {% else %}
+                    {{ artwork.medium }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not artwork.raw_size %}
+                    <span class="label label-warning">NotSupplied</span>
+                    {% else %}
+                    {{ artwork.raw_size }}
+                    {% endif %}
+                </td>
+                <td>{{ artwork.depth }}</td>
+                <td>{{ artwork.height }}</td>
+                <td>{{ artwork.width }}</td>
+                {% comment %}<td>{{ artwork.image_url }}</td>{% endcomment %}
+                <td>{{ artwork.artist }}</td>
+                <td>
+                    <a class="btn btn-small btn-primary" data-toggle="modal" href="#edit-{{ artwork.pk }}">
+                        Edit Artwork
+                    </a>
+                </td>
+            </tr>
+            <div class="modal hide fade" id="edit-{{ artwork.pk }}">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Edit Artwork</h3>
+  </div>
+
+  <div class="modal-body">
+      <form action="{% url artwork-edit artwork.pk %}" method="post">
+        {% csrf_token %}
+        <label>Title</label>
+        <input type="text" name="title" maxlength="255" value="{{ artwork.title }}">
+        <label>Year Started</label>
+        <input type="date" name="create_start" value="{{ artwork.create_start.isoformat }}">
+        <label>Year Finished</label>
+        <input type="date" name="create_finish" value="{{ artwork.create_finish.isoformat }}">
+        <label>Medium</label>
+        <input type="text" name="medium" maxlength="255" value="{{ artwork.medium }}">
+        <label>Raw Size</label>
+        <input type="text" name="raw_size" maxlength="255" value="{{ artwork.raw_size }}">
+        <label>Depth</label>
+        <input type="text" name="depth" value="{{ artwork.depth }}">
+        <span class="help-inline">in centimeters!</span>
+        <label>Height</label>
+        <input type="text" name="height" value="{{ artwork.height }}">
+        <span class="help-inline">in centimeters!</span>
+        <label>Width</label>
+        <input type="text" name="width" value="{{ artwork.width }}">
+        <span class="help-inline">in centimeters!</span>
+        <label>Image URL</label>
+        <input type="text" name="image_url" maxlength="200" value="{{ artwork.image_url }}">
+
+        <label>Artist:</label>
+        <select name="artist">
+            {% for artist in artists %}
+            <option value="{{ artist.pk }}"{% ifequal artist artwork.artist %} selected="selected"{% endifequal %}>
+            {{ artist }}
+            </option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="import_run" value="{{ importrun.pk }}">
+  </div>
+
+  <div class="modal-footer">
+    <input type="submit" value="Save changes" class="btn btn-primary">
+      </form>
+    <a href="#" data-dismiss="modal" class="btn">Close</a>
+  </div>
+</div>
+            
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

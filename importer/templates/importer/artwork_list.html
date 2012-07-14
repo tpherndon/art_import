@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Artworks</h2>
+    {% regroup object_list by artist as artwork_list %}
+    {% for artist in artwork_list %}
+    <h3>
+        <a href="{% url artist-detail artist.grouper.pk %}">
+            {{ artist.grouper }}
+        </a>
+    </h3>
+    <ul>
+        {% for artwork in artist.list %}
+        <li>
+        <a data-toggle="modal" data-target="#artwork-modal-{{ artwork.pk }}">
+            {{ artwork.title }}
+        </a>
+        </li>
+        <div class="modal hide fade" id="artwork-modal-{{ artwork.pk }}">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">x</a>
+                <h3>{{ artwork.title }}</h3>
+            </div>
+          <div class="modal-body">
+            {% if artwork.midsize %}
+                <img src="{{ artwork.modalsize.url }}">
+            {% else %}
+                <h5>NO IMAGE FOUND</h5>
+            {% endif %}
+            <p>{{ artwork.medium }}
+                <br>{{ artwork.raw_size }}
+                <br>
+            {% ifnotequal artwork.create_start artwork.create_finish %}
+                {{ artwork.create_start.year }} &dash; {{ artwork.create_finish.year }}
+            {% else %}
+                {{ artwork.create_start.year }}
+            {% endifnotequal %}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+{% endblock %}
