@@ -16,7 +16,9 @@ I wrote the app using Python 2.6, and it should work unmodified on 2.7. I've
 included a requirements.txt for use with pip and virtualenv. Create a new 
 virtualenv and install the requirements via:
 
+```
 pip install -r requirements.txt
+```
 
 The app uses sqlite3 by default, as that obviates the need for installing
 Postgres or MySQL, but should work with either. If you choose to run it
@@ -26,15 +28,21 @@ database adaptor.
 
 Once the requirements are installed, cd into the project directory and run:
 
+```
 python manage.py syncdb
+```
 
 to install the database tables, followed by:
 
+```
 python manage.py runserver
+```
 
 You may also run the test suite, via:
 
+```
 python manage.py test importer
+```
 
 Note that the test suite covers the various parsers, and also note that one
 test is known to fail. I came up with some nicely ambiguous size measurements
