@@ -1,5 +1,5 @@
-ARTIFACT IMPORTER
-=================
+ARTIFACT IMPORTER v1.0
+======================
 
 TEST PROJECT REQUIREMENTS: A simple Excel/CSV importer
 Abstract a data model from the attached excel file. Express it as a data store schema and/or API.
