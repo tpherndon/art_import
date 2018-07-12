@@ -1,6 +1,9 @@
 ARTIFACT IMPORTER v1.0
 ======================
 
+Archived as of 2018-07-12
+=========================
+
 TEST PROJECT REQUIREMENTS: A simple Excel/CSV importer
 Abstract a data model from the attached excel file. Express it as a data store schema and/or API.
 Describe data cleanup needed and how you would approach it, and prototype some of the following (your choice which):
